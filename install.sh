@@ -11,13 +11,13 @@ while [ "$Failcounter" -lt "5" ]; do
 		break
 		fi
 done
-if [ "$Failcounter" -eq 5 ]; then
+if [ "$Failcounter" -eq "5" ]; then
 	echo "failed to create directory netpulse"
 	exit 1
 fi
 
 while [ "$Failcounter" -lt "5" ]; do
-	sudo apt install python3-venv
+	sudo apt install python3-venv -y
 		if [ $? -ne 0 ]; then
 		((Failcounter++)) 
 		else echo "successfully installed python3"
@@ -25,16 +25,16 @@ while [ "$Failcounter" -lt "5" ]; do
 		break
 		fi
 done
-if [ "$Failcounter$ -eq 5 ]; then
+if [ "$Failcounter$" -eq "5" ]; then
 	echo "failed to install python3"
 	exit 1
 fi
 
 cd netpulse
 python3 -m venv .venv
-sudo apt install python3-pip
+sudo apt install python3-pip -y
 while [ "$Failcounter" -lt "5" ]; do
-	cp main.py "$HOME/netpulse"
+	cp main.py "./netpulse"
 		if [ $? -ne 0 ]; then
 		((Failcounter++)) 
 		else echo "successfully copied main.py"
@@ -42,13 +42,13 @@ while [ "$Failcounter" -lt "5" ]; do
 		break
 		fi
 done
-if [ "$Failcounter" -eq 5 ]; then
+if [ "$Failcounter" -eq "5" ]; then
 	echo "failed to copy main.py"
 	exit 1
 fi
 
 while [ "$Failcounter" -lt "5" ]; do
-	cp monitoring "$HOME/netpulse"
+	cp monitoring "./netpulse"
 		if [  $? -ne 0 ]; then
 		((Failcounter++))
 		else echo "successfully copied monitoring folder"
@@ -56,7 +56,7 @@ while [ "$Failcounter" -lt "5" ]; do
 		break
 		fi
 done
-if [ "$Failcounter" -eq 5 ]; then
+if [ "$Failcounter" -eq "5" ]; then
 	echo "failed to copy the monitoring folder"
 	exit 1
 fi
