@@ -16,6 +16,34 @@ if [ "$Failcounter" -eq "5" ]; then
 	exit 1
 fi
 
+while [ "$Failcounter" -lt "5" ]; do
+	sudo apt install docker.io -y
+		if [ $? -ne "0" ]; then
+		((Failcounter++)) 
+		else echo "successfully installed docker"
+		Failcounter=0
+		break
+		fi
+done
+if [ "$Failcounter" -eq "5" ]; then
+	echo "failed to install docker"
+	exit 1
+fi
+
+while [ "$Failcounter" -lt "5" ]; do
+	sudo apt install docker-compose-plugin -y
+		if [ $? -ne "0" ]; then
+		((Failcounter++)) 
+		else echo "successfully installed docker"
+		Failcounter=0
+		break
+		fi
+done
+if [ "$Failcounter" -eq "5" ]; then
+	echo "failed to install docker"
+	exit 1
+fi
+
 python3 -m venv .venv
 source .venv/bin/activate
 
