@@ -13,7 +13,7 @@ while ["$Failcounter" -lt "5"]; do
 done
 if [ "$Failcounter"=5 ]; then
 	echo "failed to create directory netpulse"
-	exit1
+	exit 1
 fi
 
 while ["$Failcounter" -lt "5"]; do
