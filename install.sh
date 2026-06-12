@@ -47,16 +47,14 @@ fi
 python3 -m venv .venv
 source .venv/bin/activate
 
-for requirement in "${requirements[@]}"; do
-	pip install "$requirement"
-	if [ $? -ne "0" ]; then
-	echo "failed to install $requirement"
-	exit 1
-	else echo "$requirement installed"
-	fi
-done
+if [ -f "requirements.txt" ]; then
+    pip install -r requirements.txt
+else
+    echo "no requirements.txt found!"
+    exit 1
+fi
 
 cd monitoring
-docker compose up -d
+sudo docker compose up -d
 cd ..
 fastapi dev main.py
