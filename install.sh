@@ -16,11 +16,10 @@ if [ "$Failcounter" -eq "5" ]; then
 	exit 1
 fi
 
-cd .venv
-python3 - m venv vvv
-source vvv/bin/activate
+python3 -m venv .venv
+source .venv/bin/activate
 
-for requirement in "{requirements[@]}"; do
+for requirement in "${requirements[@]}"; do
 	pip install "$requirement"
 	if [ $? -ne "0" ]; then
 	echo "failed to install $requirement"
@@ -29,11 +28,7 @@ for requirement in "{requirements[@]}"; do
 	fi
 done
 
-cd ..
 cd monitoring
 docker compose up -d
 cd ..
 fastapi dev main.py
-
-
-exit
