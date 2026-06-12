@@ -25,7 +25,7 @@ while [ "$Failcounter" -lt "5" ]; do
 		break
 		fi
 done
-if [ "$Failcounter$" -eq "5" ]; then
+if [ "$Failcounter" -eq "5" ]; then
 	echo "failed to install python3"
 	exit 1
 fi
