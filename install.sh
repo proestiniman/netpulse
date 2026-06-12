@@ -3,8 +3,8 @@ Failcounter=0
 #Verzeichnisstruktur erstellen
 
 while [ "$Failcounter" -lt "5" ]; do
-	mkdir -p "$HOME/netpulse"
-		if [ $? -ne 0 ]; then
+	mkdir -p "./netpulse"
+		if [ $? -ne "0" ]; then
 		((Failcounter++)) 
 		else echo "successfully created directory netpulse"
 		Failcounter=0
@@ -18,7 +18,7 @@ fi
 
 while [ "$Failcounter" -lt "5" ]; do
 	sudo apt install python3-venv -y
-		if [ $? -ne 0 ]; then
+		if [ $? -ne "0" ]; then
 		((Failcounter++)) 
 		else echo "successfully installed python3"
 		Failcounter=0
@@ -35,7 +35,7 @@ python3 -m venv .venv
 sudo apt install python3-pip -y
 while [ "$Failcounter" -lt "5" ]; do
 	cp main.py "./netpulse"
-		if [ $? -ne 0 ]; then
+		if [ $? -ne "0" ]; then
 		((Failcounter++)) 
 		else echo "successfully copied main.py"
 		Failcounter=0 
@@ -49,7 +49,7 @@ fi
 
 while [ "$Failcounter" -lt "5" ]; do
 	cp monitoring "./netpulse"
-		if [  $? -ne 0 ]; then
+		if [  $? -ne "0" ]; then
 		((Failcounter++))
 		else echo "successfully copied monitoring folder"
 		Failcounter=0 
@@ -67,7 +67,7 @@ source vvv/bin/activate
 
 for requirement in "{requirements[@]}"; do
 	pip install "$requirement"
-	if [ $? -ne 0 ]; then
+	if [ $? -ne "0" ]; then
 	echo "failed to install $requirement"
 	exit 1
 	else echo "$requirement installed"
