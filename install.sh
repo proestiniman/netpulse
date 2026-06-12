@@ -10,10 +10,10 @@ while ["$Failcounter" -lt "5"]; do
 		$Failcounter=0
 		break
 		fi
+done
 if [ "$Failcounter"=5 ]; then
 	echo "failed to create directory netpulse"
 	exit1
-else continue
 fi
 
 while ["$Failcounter" -lt "5"]; do
@@ -24,11 +24,12 @@ while ["$Failcounter" -lt "5"]; do
 		$Failcounter=0
 		break
 		fi
+done
 if [ "$Failcounter"=5 ]; then
 	echo "failed to install python3"
 	exit 1
-else continue
 fi
+
 cd netpulse
 python3 -m venv .venv
 sudo apt install python3-pip
@@ -40,10 +41,10 @@ while ["$Failcounter" -lt "5"]; do
 		$Failcounter=0 
 		break
 		fi
+done
 if [ "$Failcounter"=5 ]; then
 	echo "failed to copy main.py"
 	exit 1
-else continue
 fi
 
 while ["$Failcounter" -lt "5"]; do
@@ -54,10 +55,10 @@ while ["$Failcounter" -lt "5"]; do
 		$Failcounter=0 
 		break
 		fi
+done
 if [ "$Failcounter"=5 ]; then
 	echo "failed to copy the monitoring folder"
 	exit 1
-else continue
 fi
 
 cd .venv
@@ -73,6 +74,7 @@ for k in {requirements.length}; do
 	else "$requirement installed"
 	fi
 done
+
 cd ..
 cd monitoring
 docker compose up -d
