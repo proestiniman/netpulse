@@ -1,0 +1,8 @@
+docker
+Prometheus
+grafana
+Blackbox exporter
+jinja2
+pydantic
+uvicorn
+

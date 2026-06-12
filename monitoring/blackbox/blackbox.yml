@@ -1,0 +1,22 @@
+modules:
+  http_2xx:
+    prober: http
+    timeout: 10s
+    http:
+      preferred_ip_protocol: ip4
+      method: GET
+      follow_redirects: true
+
+  https_2xx:
+    prober: http
+    timeout: 10s
+    http:
+      preferred_ip_protocol: ip4
+      method: GET
+      tls_config:
+        insecure_skip_verify: false
+
+  icmp:
+    prober: icmp
+    timeout: 10s
+

@@ -1,0 +1,94 @@
+apiVersion: 1
+
+groups:
+  - orgId: 1
+    name: server-alerts
+    folder: Infrastructure
+    interval: 1m
+    
+    rules:
+      - uid: server-up-icmp
+        title: Server reachable via ICMP
+        condition: A
+        noDataState: NoData
+        execErrState: Error
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 60
+              to: 0
+            datasourceUid: "PBFA97CFB590B2093"
+            model:
+              editorMode: code
+              expr: probe_success{job="icmp"} == 1
+              instant: false
+              intervalMs: 1000
+              refId: A
+              
+        for: 1m
+         
+        annotations:
+           summary: "Server reachable for 1 minute"
+           description: "ICMP probe_success delivers 1"
+           
+        labels:
+           severity: info
+           type: icmp
+           
+      - uid: http-down
+        title: Website HTTP unreachable
+        condition: A
+        noDataState: NoData
+        execErrState: Error
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0  
+            datasourceUid: "PBFA97CFB590B2093"
+            model:
+              editorMode: code
+              expr: probe_success{job="http"} == 0
+              instant: false
+              intervalMs: 1000
+              refId: A
+              
+        for: 5m
+         
+        annotations:
+           summary: "HTTP probe failed"
+           description: "Website is unreachable for 5 minutes"
+           
+        labels:
+           severity: critical
+           type: http
+  
+      - uid: https-down
+        title: Website HTTPS unreachable
+        condition: A
+        noDataState: NoData
+        execErrState: Error
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+              
+            datasourceUid: "PBFA97CFB590B2093"
+            
+            model:
+              editorMode: code
+              expr: probe_success{job="https"} == 0
+              instant: false
+              intervalMs: 1000
+              refId: A
+              
+        for: 5m
+         
+        annotations:
+           summary: "HTTPS probe failed"
+           description: "Website is unreachable for 5 minutes"
+           
+        labels:
+           severity: critical
+           type: https    

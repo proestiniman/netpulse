@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>NetPulse Control Center</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+    <script>
+        window.onload = get_scrape_jobs;
+        async function pushTarget(type) {
+            const val = document.getElementById('addInput').value;
+            const endpoint = type === 'icmp' ? '/push_icmp/' : type === 'http' ? '/push_http/' : '/push_https/';
+            const payload = type === 'icmp' ? { ip: val } : (type === 'http' ? { url: val } : { Surl: val });
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+            } catch (error) {
+                console.error("Failure:", error);
+            }
+        }
+
+         async function get_scrape_jobs() {
+            const listElement = document.getElementById('jobList');
+            const response = await fetch('/scrape_jobs/');
+            const data = await response.json();
+            
+            listElement.innerHTML = ""; 
+            data.jobs.forEach(job => {
+                const li = document.createElement('li');
+                const btn = document.createElement('button')
+                btn.className = "btn btn-sm btn-outline-danger";
+                btn.textContent = "Delete";
+                btn.addEventListener("click", deleteTarget(listElement))
+                li.className = "list-group-item d-flex justify-content-between align-items-center";
+                li.textContent = job
+                li.appendChild(btn)
+                listElement.appendChild(li);
+            });
+        }
+
+        async function fetchDomainIP() {
+            const inputElement = document.getElementById('urlInput');
+            const urlValue = inputElement.value;
+        try {
+            const response = await fetch('/get_IP', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ url: urlValue })
+        });
+
+        const data = await response.json();
+
+        if (data.ip) {
+            alert("Success: " + data.ip);
+            document.getElementById('addInput').value = data.ip;
+        } else {
+            alert("Failure: " + (data.error || "IP wasn't found."));
+        }
+        } catch (error) {
+        alert("Server unreachable.");
+        }
+    }
+    </script>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h1 class="mb-4">Monitor Management</h1>
+
+        <div class="card p-4 shadow-sm mb-4">
+            <h3>Add new Target</h3>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <input type="text" id="addInput" class="form-control" placeholder="IP or URL (eg 8.8.8.8)">
+                </div>
+                <div class="col-md-6">
+                    <button onclick="pushTarget('icmp')" class="btn btn-success">Add ICMP</button>
+                    <button onclick="pushTarget('http')" class="btn btn-success">Add HTTP</button>
+                    <button onclick="pushTarget('https')" class="btn btn-success">Add HTTPS</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-4 shadow-sm mb-4 border-danger">
+            <h3>Delete Target</h3>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <input type="text" id="deleteInput" class="form-control" placeholder="IP or URL to delete">
+                </div>
+                <div class="col-md-6">
+                    <button onclick="deleteTarget()" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-4 shadow-sm mb-4">
+            <h3>Get IP address</h3>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <input type="text" id="urlInput" class="form-control" placeholder="Insert URL">
+                </div>
+                <div class="col-md-6">
+                    <button onclick="fetchDomainIP()" class="btn btn-success">Get IP</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-4 shadow-sm mb-4 border-success">
+            <h3>Joblist</h3>
+            <div class="row g-3 mb-3">
+                <div class="col-md-12">
+                    <button onclick="get_scrape_jobs()" class="btn btn-primary">
+                    <i class="bi bi-arrow-clockwise"></i> Refresh Joblist
+                    </button>
+            </div>
+        </div>
+            <ul id="jobList" class="list-group">
+            </ul>
+        </div>
+
+        <div id="statusMsg" class="alert d-none"></div>
+    </div>
+</body>
+    <script>
+        async function deleteTarget() {
+
+            const val = document.getElementById('deleteInput').value;
+            console.log(val)
+            if (!val) return;
+            const endpoint = `/delete/?name=${encodeURIComponent(val)}`;
+            try {
+                const response = await fetch(endpoint, { method: 'DELETE' });
+                if (response.ok) {
+                document.getElementById('deleteInput').value = "";
+            } else {
+                console.error("Failed to delete!");
+            }
+        } catch (error) {
+           console.error("Network error:", error);
+        }
+    }
+    </script>
+</html>

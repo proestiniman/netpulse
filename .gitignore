@@ -1,0 +1,5 @@
+__pycache__/*
+monitoring/prometheus/targets/https___google_com_.json
+monitoring/grafana/dashboards/https___google_com_.json
+monitoring/grafana/dashboards/icmp_8_8_8_8.json
+monitoring/prometheus/targets/icmp_8_8_8_8.json
