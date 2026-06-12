@@ -1,7 +1,4 @@
 docker
-Prometheus
-grafana
-Blackbox exporter
 fastapi
 pydantic
 uvicorn
