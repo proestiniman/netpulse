@@ -8,5 +8,5 @@ contactPoints:
       - uid: email
         type: email
         settings:
-          addresses: ""
+          addresses: "keinbsp@bsp.de"
           singleEmail: false
