@@ -17,9 +17,10 @@
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(payload)
-                });
+                }); alert("Successfully added!");
             } catch (error) {
                 console.error("Failure:", error);
+                alert("Failure!")
             }
         }
 
@@ -31,13 +32,8 @@
             listElement.innerHTML = ""; 
             data.jobs.forEach(job => {
                 const li = document.createElement('li');
-                const btn = document.createElement('button')
-                btn.className = "btn btn-sm btn-outline-danger";
-                btn.textContent = "Delete";
-                btn.addEventListener("click", deleteTarget(listElement))
                 li.className = "list-group-item d-flex justify-content-between align-items-center";
-                li.textContent = job
-                li.appendChild(btn)
+                li.textContent = job;
                 listElement.appendChild(li);
             });
         }
@@ -133,12 +129,15 @@
             try {
                 const response = await fetch(endpoint, { method: 'DELETE' });
                 if (response.ok) {
+                alert("Successfully deleted!")
                 document.getElementById('deleteInput').value = "";
             } else {
                 console.error("Failed to delete!");
+                alert("Failed to delete!")
             }
         } catch (error) {
            console.error("Network error:", error);
+           alert("Network error!")
         }
     }
     </script>
