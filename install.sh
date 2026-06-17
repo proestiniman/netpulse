@@ -30,7 +30,7 @@ Signed-By: /etc/apt/keyrings/docker.asc
 EOF
 
 #create and activate virtual environment
-python3 -m venv .venv
+/usr/bin/python3 -m venv .venv
 source .venv/bin/activate
 #install requirements
 if [ -f "requirements.txt" ]; then
@@ -43,4 +43,4 @@ fi
 cd monitoring
 sudo docker compose up -d
 cd ..
-fastapi dev main.py
+./.venv/bin/fastapi dev main.py
