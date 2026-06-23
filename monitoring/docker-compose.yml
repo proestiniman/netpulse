@@ -8,7 +8,7 @@ services:
       - blackbox
     volumes:
       - ./prometheus:/etc/prometheus
-      - ./netpulse/monitoring/prometheus/targets/:/etc/prometheus/targets/
+      - ./prometheus/targets/:/etc/prometheus/targets/
     command:
       - "--web.enable-lifecycle"
       - "--config.file=/etc/prometheus/prometheus.yml"
