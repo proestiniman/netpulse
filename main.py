@@ -190,6 +190,7 @@ async def push_http(data: Website):
       json_body_url = copy.deepcopy(json_body_DB)
       json_body_url['title'] = f"http up {url_str}"
       json_body_url['panels'][0]['title'] = f"http up {url_str}"
+      json_body_url['panels'][0]['targets'][0]['expr'] = "probe_http_duration_seconds{job='blackbox_http'}"
       Json_Name_URL = f"{url_str.replace('/','_').replace(':','_').replace('.','_')}.json"
       JsonPathFull_URL = os.path.join(JsonPathDashboard, Json_Name_URL)
 
@@ -223,6 +224,7 @@ async def push_https(data: Swebsite):
         json_body_Surl = copy.deepcopy(json_body_DB)
         json_body_Surl['title'] = f"https up {Surl_str}"
         json_body_Surl['panels'][0]['title'] = f"https up {Surl_str}"
+        json_body_Surl['panels'][0]['targets'][0]['expr'] = "probe_http_duration_seconds{job='blackbox_https'}"
         Json_Name_SURL = f"{Surl_str.replace('/','_').replace(':','_').replace('.','_')}.json"
         JsonPathFull_SURL = os.path.join(JsonPathDashboard, Json_Name_SURL)
 
